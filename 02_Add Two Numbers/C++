@@ -1,0 +1,129 @@
+#include<iostream>
+#include<list>
+#include<iterator>
+using namespace std;
+
+class two_numplus
+{
+	public:
+		bool input();//输入两个整数，分别按位存入链表
+		bool make_up();//补齐
+		bool sum();
+		bool output();//输出结果
+	private:
+		int size1;
+   		int size2;
+    	list<int> target1;
+		list<int> target2;
+		list<int> result;
+};
+
+bool two_numplus::input()
+{
+	int temp=0 ;
+    int temp1=0;
+    int i,j;;
+    cout<<"请输第一个整数位数："<<endl;
+    cin>>size1;
+	cout<<"请按位输入第一个整数："<<endl;
+	for(i=0;i<size1;i++)
+	{
+		cin>>temp;
+		target1.push_back(temp);
+	}
+	cout<<"请输入第二个整数位数:"<<endl;
+    cin>>size2;
+    cout<<"请按位输入第二个整数:"<<endl;
+	for(j=0;j<size2;j++)
+	{
+		cin>>temp1;
+		target2.push_back(temp1);
+	}
+	return true;
+}
+
+//补齐链表
+bool two_numplus::make_up()
+{
+	int temp;
+	if(target1.size()>target2.size())
+	{
+		temp=target1.size()-target2.size();
+		for(int i=0;i<temp;i++)
+		{
+			target2.push_back(0);
+		}
+	}
+	if(target1.size()<target2.size())
+	{
+		temp=target2.size()-target1.size();
+		for(int i=0;i<temp;i++)
+		{
+			target1.push_back(0);
+		}
+	}
+
+	//打印补齐之后的链表
+	cout<<"补齐后的链表为："<<endl;
+	list<int>::iterator iter1=target1.begin();
+	for(;iter1!=target1.end();iter1++)
+	{
+		cout<<*iter1<<" ";
+	}
+	cout<<endl;
+	list<int>::iterator iter2=target2.begin();
+	for(;iter2!=target2.end();iter2++)
+	{
+		cout<<*iter2<<" ";
+	}
+	cout<<endl;
+	return true;
+}
+
+//求和
+bool two_numplus::sum()
+{	
+	int temp;
+	int carry=0;//表示进位
+	list<int>::iterator iter1=target1.begin();
+	list<int>::iterator iter2=target2.begin();
+	for(;iter1!=target1.end();iter1++)
+	{
+		if(((*iter1)+(*iter2)+carry)>=10)
+		{
+			temp=(int)((*iter1)+(*iter2)+carry)%10;
+			result.push_back(temp);
+			carry=1;
+		}	
+		if(((*iter1)+(*iter2)+carry)<10)
+		{
+			temp=(*iter1)+(*iter2)+carry;
+			result.push_back(temp);
+			carry=0;
+		}
+    iter2++;
+	}
+	return true;
+}
+
+bool two_numplus::output()
+{
+	result.reverse();//链表反转
+	cout<<"结果为："<<endl;
+	for(list<int>::iterator iter=result.begin();iter!=result.end();iter++)
+	{
+		cout<<*iter;
+	}
+	cout<<endl;
+	return true;
+}
+
+int main()
+{
+	two_numplus aa;
+	aa.input();
+	aa.make_up();
+	aa.sum();
+	aa.output();
+	return 0;
+}
